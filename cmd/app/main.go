@@ -33,6 +33,7 @@ func main() {
 	router := gin.Default()
 
 	router.LoadHTMLGlob("templates/*")
+	router.Static("/public", "public/")
 
 	routes.RegisterRoutes(router)
 
