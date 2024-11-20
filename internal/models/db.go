@@ -10,6 +10,7 @@ type User struct {
 	Username string `gorm:"uniqueIndex"`
 	Password string
 	Expiry   time.Time
+	Ip       string
 }
 
 type Transaction struct {
@@ -28,4 +29,5 @@ type Voucher struct {
 	IsActive      bool
 	TransactionID uuid.UUID
 	Transaction   Transaction
+	Ip            string
 }

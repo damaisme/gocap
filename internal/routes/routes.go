@@ -35,5 +35,7 @@ func RegisterRoutes(router *gin.Engine) {
 
 		api.POST("/logout", handlers.Logout)
 
+		api.GET("/finish", handlers.Finish)
+
 	}
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/damaisme/gocap/internal/config"
 	"github.com/damaisme/gocap/internal/database"
+	"github.com/damaisme/gocap/internal/handlers"
 	"github.com/damaisme/gocap/internal/models"
 	"github.com/damaisme/gocap/internal/routes"
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,9 @@ func main() {
 	// Seed a voucher (for testing)
 	database.DB.Create(&model.Voucher{Code: "VOUCHER123", Expiry: time.Now().Add(24 * time.Hour), MaxUses: 2})
 	database.DB.Create(&model.User{Username: "test", Password: "test", Expiry: time.Now().Add(24 * 30 * time.Hour)})
+
+	// Start the background goroutine to check for expired vouchers
+	handlers.StartVoucherExpiryCheck()
 
 	router := gin.Default()
 

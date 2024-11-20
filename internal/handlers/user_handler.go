@@ -36,35 +36,65 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if username != "" && AuthenticateUser(username, password) {
-		// Start session
-		session, _ := config.Store.Get(c.Request, "session")
-		clientIP := c.ClientIP()
+	if username != "" {
+		if auth, user := AuthenticateUser(username, password); auth {
 
-		session.Values["authenticated"] = true
-		session.Values["loginType"] = "user"
-		session.Values["ip"] = clientIP // Store client IP in session
-		session.Values["username"] = username
-		err := session.Save(c.Request, c.Writer)
-		if err != nil {
-			log.Printf("Failed to save session: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
-			return
+			clientIP := c.ClientIP()
+
+			log.Println(user.Ip)
+			// if user.Ip exist
+			if user.Ip != "" {
+				log.Println("ip exist")
+				utils.DeleteIptablesRule(user.Ip)
+			}
+
+			user.Ip = clientIP
+			if err := database.DB.Save(&user).Error; err != nil {
+				log.Printf("Error updating user ip: %v", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update db"})
+				return
+			}
+
+			// Start session
+			session, _ := config.Store.Get(c.Request, "session")
+
+			session.Values["authenticated"] = true
+			session.Values["loginType"] = "user"
+			session.Values["ip"] = clientIP // Store client IP in session
+			session.Values["username"] = username
+			err := session.Save(c.Request, c.Writer)
+			if err != nil {
+				log.Printf("Failed to save session: %v", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
+				return
+			}
+
+			utils.AddIptablesRule(clientIP)
+
+			c.Redirect(http.StatusSeeOther, "/")
 		}
+	}
 
-		utils.AddIptablesRule(clientIP)
-
-		c.Redirect(http.StatusSeeOther, "/")
-	} else if voucherCode != "" {
+	if voucherCode != "" {
 
 		valid, voucher := ValidateVoucher(voucherCode)
 
 		log.Println(valid)
 
 		if valid {
+			clientIP := c.ClientIP()
+			// if voucher.Ip exist
+			if voucher.Ip != "" {
+				utils.DeleteIptablesRule(voucher.Ip)
+			}
+			voucher.Ip = clientIP
+			if err := database.DB.Save(&voucher).Error; err != nil {
+				log.Printf("Error updating user ip: %v", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update db"})
+				return
+			}
 			// Start session
 			session, _ := config.Store.Get(c.Request, "session")
-			clientIP := c.ClientIP()
 
 			session.Values["authenticated"] = true
 			session.Values["loginType"] = "voucher"
@@ -84,6 +114,7 @@ func Login(c *gin.Context) {
 		c.HTML(http.StatusUnauthorized, "login.html", gin.H{"Error": "Access denied"})
 		return
 	}
+
 }
 
 func Logout(c *gin.Context) {
@@ -123,6 +154,12 @@ func BuyVoucher(c *gin.Context) {
 	if plan == "1day" {
 		GrossAmt = 5000
 		Expiry = time.Now().Add(24 * time.Hour)
+	} else if plan == "7day" {
+		GrossAmt = 5000
+		Expiry = time.Now().Add(7 * 24 * time.Hour)
+	} else if plan == "30day" {
+		GrossAmt = 5000
+		Expiry = time.Now().Add(7 * 24 * time.Hour)
 	}
 
 	// Save transaction details to the database
@@ -220,8 +257,8 @@ func Finish(c *gin.Context) {
 }
 
 // Authenticate user with SQLite database
-func AuthenticateUser(username, password string) bool {
+func AuthenticateUser(username, password string) (bool, model.User) {
 	var user model.User
 	result := database.DB.Where("username = ? AND password = ?", username, password).First(&user)
-	return result.Error == nil
+	return result.Error == nil, user
 }
