@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/damaisme/go-captive-portal/internal/handlers"
+	"github.com/damaisme/gocap/internal/handlers"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

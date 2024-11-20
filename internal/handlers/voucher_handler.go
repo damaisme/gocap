@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/damaisme/go-captive-portal/internal/database"
-	"github.com/damaisme/go-captive-portal/internal/models"
+	"github.com/damaisme/gocap/internal/database"
+	"github.com/damaisme/gocap/internal/models"
 	"time"
 )
 

@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"github.com/damaisme/go-captive-portal/internal/config"
-	"github.com/damaisme/go-captive-portal/internal/database"
-	"github.com/damaisme/go-captive-portal/internal/models"
-	"github.com/damaisme/go-captive-portal/internal/utils"
+	"github.com/damaisme/gocap/internal/config"
+	"github.com/damaisme/gocap/internal/database"
+	"github.com/damaisme/gocap/internal/models"
+	"github.com/damaisme/gocap/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"log"

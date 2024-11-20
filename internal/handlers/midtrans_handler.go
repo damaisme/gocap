@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/damaisme/go-captive-portal/internal/models"
+	"github.com/damaisme/gocap/internal/models"
 	"github.com/google/uuid"
 	"github.com/midtrans/midtrans-go"
 	"github.com/midtrans/midtrans-go/coreapi"

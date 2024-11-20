@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/damaisme/go-captive-portal/internal/models"
+	"github.com/damaisme/gocap/internal/models"
 	"gorm.io/driver/sqlite" // Example with SQLite, use your DB driver here
 	"gorm.io/gorm"
 )
