@@ -9,6 +9,8 @@ import (
 	"github.com/damaisme/gocap/internal/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/sessions"
+	"log"
+	"os"
 )
 
 var (
@@ -17,6 +19,8 @@ var (
 )
 
 func main() {
+
+	config.LoadConfig()
 
 	database.InitDB()
 
@@ -32,5 +36,12 @@ func main() {
 
 	routes.RegisterRoutes(router)
 
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80" // Default port
+	}
+	log.Printf("Starting server on port: %s", port)
+	if err := router.Run(":" + port); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
