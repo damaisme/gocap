@@ -23,6 +23,10 @@ func RegisterRoutes(router *gin.Engine) {
 			c.String(http.StatusOK, "Hallooo")
 		})
 
+		api.GET("/generate_204", func(c *gin.Context) {
+			c.Redirect(http.StatusPermanentRedirect, "http://gocap.local/")
+		})
+
 		api.GET("/logout", handlers.Logout)
 
 		api.POST("/login", handlers.Login)
