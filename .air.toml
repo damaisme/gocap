@@ -1,0 +1,5 @@
+[build]
+graceful_restart = true
+cmd = "go run cmd/app/main.go"
+bin = "tmp/main"
+

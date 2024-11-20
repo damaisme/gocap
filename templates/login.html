@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
+        
+        <!-- Display any error messages -->
+        {{if .Error}}
+            <div class="p-2 mb-4 text-sm text-red-600 bg-red-100 rounded">{{.Error}}</div>
+        {{end}}
+
+        <form class="space-y-4" action="/login" method="POST">
+            <h3 class="text-lg font-semibold text-gray-700">Login with Username/Password</h3>
+
+            <!-- Username Field -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" required
+                    class="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit"
+                class="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+                Login
+            </button>
+        </form>
+
+                <!-- Voucher Form -->
+        <form class="space-y-4" action="/login" method="POST">
+            <h3 class="text-lg font-semibold text-gray-700">Login with Voucher</h3>
+            <div>
+                <label for="voucher" class="block text-sm font-medium text-gray-700">Voucher Code</label>
+                <input type="text" id="voucher" name="voucher" required
+                    class="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+
+            <button type="submit"
+                class="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+                Redeem Voucher
+            </button>
+        </form>
+
+        <!-- Additional Info -->
+        <p class="text-sm text-center text-gray-600">
+            Buy voucher <a href="/voc" class="font-medium text-indigo-600 hover:underline">Buy here!</a>
+        </p>
+    </div>
+
+</body>
+</html>
+

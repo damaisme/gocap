@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Voucher</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center text-gray-800">Buy Wi-Fi Voucher</h2>
+        <p class="text-center text-gray-600">Choose your plan and access high-speed internet.</p>
+
+        {{if .Error}}
+            <div class="p-2 mb-4 text-sm text-red-600 bg-red-100 rounded">{{.Error}}</div>
+        {{end}}
+
+        <form class="space-y-4" action="/buy_voc" method="POST">
+            <!-- name Field -->
+            <div>
+                <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                <input type="name" name="name" id="name" required 
+                    class="w-full px-3 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Nama Anda" />
+            </div>
+
+            <!-- Voucher Plan Selection -->
+            <div>
+                <label for="voucher_plan" class="block text-sm font-medium text-gray-700">Voucher Plan</label>
+                <select name="plan" id="plan" required 
+                    class="w-full px-3 py-2 mt-1 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="" disabled selected>Select a plan</option>
+                    <option value="1day">1 Day - Rp. 5,000</option>
+                    <option value="7day">7 Day - Rp. 30,000</option>
+                    <option value="30day">30 Day - Rp. 100,000</option>
+                </select>
+            </div>
+
+
+            <!-- Submit Button -->
+            <button id="button-voc" type="submit"
+                class="block w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+                Purchase Voucher
+            </button>
+        </form>
+
+        <!-- Back to Login Link -->
+        <p class="text-sm text-center text-gray-600 mt-4">
+            Already have a voucher? <a href="/login" class="font-medium text-indigo-600 hover:underline">Login here</a>
+        </p>
+    </div>
+
+      <script>
+          document.getElementById("voc-form").addEventListener('submit', function(event) {
+            event.preventDefault();
+            console.log("hello")
+            <!-- processPayment() -->
+          }
+    </script>
+
+</body>
+</html>
+
